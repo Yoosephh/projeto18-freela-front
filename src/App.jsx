@@ -10,7 +10,7 @@ import { useContext } from "react"
 function App() {
   const { user } = useContext(AuthContext)
   return (
-    <AuthProvider>
+    <AuthContext>
       <GlobalStyle />
       <Routes>
         <Route path="/" element={user ? <HomeScreen /> : <SignIn />} />
@@ -18,7 +18,7 @@ function App() {
         <Route path="/signup" element={ <SignUp /> } />
         <Route path="/create" element={ <CreateService />} />
       </Routes>
-    </AuthProvider>
+    </AuthContext>
   )
 }
 
