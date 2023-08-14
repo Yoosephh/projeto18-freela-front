@@ -29,7 +29,8 @@ export default function SignIn(){
       localStorage.setItem("userInfo", JSON.stringify(userInfo))
       navigate("/")
     })
-    .catch(err => alert(`${err.message}`))
+    .catch(err => {console.log(err)
+      alert(`${err.response.data.message}`)})
   }
   return (
     <Page>

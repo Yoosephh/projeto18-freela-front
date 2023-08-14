@@ -98,7 +98,7 @@ export function CreateService(){
         <label>Valor do serviço<CustomInput id={"price"}
                 name={"price"}
                 placeholder={"R$150,00"}
-                type={"text"}
+                type={"number"}
                 onChangeValue={(price) => {
                   setService(prevState =>( {
                   ...prevState,

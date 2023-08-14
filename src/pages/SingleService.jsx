@@ -8,7 +8,6 @@ import Logo from "../components/Logo"
 import Header from "../components/Header"
 
 export function DisplayService(){
-  const navigate = useNavigate()
   const location = useLocation()
   const [service, setService] = useState({})
   const {user} = useContext(AuthContext)
@@ -20,9 +19,9 @@ export function DisplayService(){
   const config = {
       headers: {'Authorization': `Bearer ${user.token}`}
     }
-    const id = location.state.id
+  const id = location.state.id
   function handleService() {
-    
+
     if(user.token) axios.get(`${import.meta.env.VITE_API_URL}/services/${id}`, config)
     .then(res => setService(res.data))
     .catch(err => console.log(err.data))
