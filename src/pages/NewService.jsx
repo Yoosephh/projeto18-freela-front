@@ -1,80 +1,113 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CustomInput from "../components/CustomInput";
 import FooterBar from "../components/Footer";
 import { Form, Page } from "../components/StylesComponents";
-import { AuthContext } from "../contexts/AuthContext";
+import AuthContext from "../contexts/AuthContext";
 import axios from "axios";
+import { styled } from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-export async function CreateService(){
+export function CreateService(){
   const {user} = useContext(AuthContext)
-  const config = {
-    headers: {'Authorization': `Bearer ${user.token}`}
-  }
-  const {token, city} = user.token;
+  const navigate = useNavigate()
   const [service, setService] = useState({
+    userId:"",
     name:"", 
     shortDescription:"",
     longDescription:"", 
     photo:"",
-    city, 
-    price:""
+    city:"", 
+    price:"",
+    isActive: true
   })
-  function handleSubmit(e){
-    e.preventDefault();
-    axios.post("/service", service, config)
+  const [token, setToken] = useState("")
+
+  function handleUserConfig() {
+    const {token, userId, city} = user;
+    if(token && userId && city){
+      setToken(token)
+      setService(prevState => ({
+        ...prevState,
+        city,
+        userId
+      }))
+    }
   }
 
-  return(
-    <Page>
-      <Form onSubmit={handleSubmit}>
-      <label>Nome do serviço<CustomInput id={"name"}
-              name={"name"}
-              placeholder={"Qual serviço você vai oferecer?"}
-              type={"text"}
-              onChangeValue={(name) => {
-                setService(prevState =>( {
-                ...prevState,
-                name
-              } ))}}></CustomInput></label>
-      <label>Descrição breve do serviço<CustomInput id={"shortDescription"}
-              name={"shortDescription"}
-              placeholder={"Descreva brevemente o serviço oferecido"}
-              type={"text"}
-              onChangeValue={(shortDescription) => {
-                setService(prevState =>( {
-                ...prevState,
-                shortDescription
-              } ))}}></CustomInput></label>
-      <label>Descrição detalhada do serviço<CustomInput id={"longDescription"}
-              name={"longDescription"}
-              placeholder={"Opcional"}
-              type={"text"}
-              onChangeValue={(longDescription) => {
-                setService(prevState =>( {
-                ...prevState,
-                longDescription
-              } ))}}></CustomInput></label>
-      <label>Insira uma imagem que represente o serviço<CustomInput id={"photo"}
-              name={"photo"}
-              placeholder={"Imagem do serviço"}
-              type={"text"}
-              onChangeValue={(url) => {
-                setService(prevState =>( {
-                ...prevState,
-                url
-              } ))}}></CustomInput></label>
-      <label>Valor do serviço<CustomInput id={"price"}
-              name={"price"}
-              placeholder={"R$150,00"}
-              type={"text"}
-              onChangeValue={(price) => {
-                setService(prevState =>( {
-                ...prevState,
-                price
-              } ))}}></CustomInput></label>
-      <button type={"submit"} onClick={handleSubmit}></button>
-      </Form>
-      <FooterBar />
-    </Page>
-  )
-}
+  useEffect(()=> {
+    handleUserConfig()
+    console.log(user)
+  },[user])
+
+  const config = {
+    headers: {'Authorization': `Bearer ${token}`}
+  }
+  function handleSubmit(e){
+    console.log(service)
+    e.preventDefault();
+    axios.post("http://localhost:5000/service", service, config)
+    .then(()=> navigate("/"))
+    .catch(err => alert(err.response.data))
+  }
+    return(
+      <Page>
+        <Form onSubmit={handleSubmit}>
+
+        <label>Nome do serviço<CustomInput id={"name"}
+                name={"name"}
+                placeholder={"Qual serviço você vai oferecer?"}
+                type={"text"}
+                onChangeValue={(name) => {
+                  setService(prevState =>( {
+                  ...prevState,
+                  name
+                } ))}}></CustomInput></label>
+
+        <label>Descrição breve do serviço<CustomInput id={"shortDescription"}
+                name={"shortDescription"}
+                placeholder={"Descreva brevemente o serviço oferecido"}
+                type={"text"}
+                onChangeValue={(shortDescription) => {
+                  setService(prevState =>( {
+                  ...prevState,
+                  shortDescription
+                } ))}}></CustomInput></label>
+
+        <label>Descrição detalhada do serviço<TextArea id={"longDescription"}
+                name={"longDescription"}
+                rows="4"
+                placeholder={"Opcional"}
+                onChange={(event) => {
+                  setService(prevState =>( {
+                  ...prevState,
+                  longDescription: event.target.value
+                } ))}}></TextArea></label>
+
+        <label>Insira uma imagem que represente o serviço<CustomInput id={"photo"}
+                name={"photo"}
+                placeholder={"Imagem do serviço"}
+                type={"text"}
+                onChangeValue={(photo) => {
+                  setService(prevState =>( {
+                  ...prevState,
+                  photo
+                } ))}}></CustomInput></label>
+
+        <label>Valor do serviço<CustomInput id={"price"}
+                name={"price"}
+                placeholder={"R$150,00"}
+                type={"text"}
+                onChangeValue={(price) => {
+                  setService(prevState =>( {
+                  ...prevState,
+                  price
+                } ))}}></CustomInput></label>
+        <button type={"submit"} onClick={handleSubmit}>Cadastrar serviço</button>
+        </Form>
+        <FooterBar />
+      </Page>
+    )
+  }
+  
+const TextArea = styled.textarea`
+`

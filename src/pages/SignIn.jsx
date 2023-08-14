@@ -14,9 +14,22 @@ export default function SignIn(){
 
   function handleSubmit(e){
     e.preventDefault();
-    axios.post("/signin", login)
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
+    axios.post("http://localhost:5000/signin/", login)
+    .then(res => { 
+      console.log(res.data)
+      const userInfo = {
+        userId: res.data.user.id,
+        photo: res.data.user.photo,
+        name: res.data.user.name,
+        token: res.data.token,
+        city: res.data.user.city,
+        userType: res.data.user.userType
+      }
+      alert(res.data.message)
+      localStorage.setItem("userInfo", JSON.stringify(userInfo))
+      navigate("/")
+    })
+    .catch(err => alert(`${err.message}`))
   }
   return (
     <Page>

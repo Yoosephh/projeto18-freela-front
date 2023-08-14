@@ -1,85 +1,41 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { styled } from "styled-components"
 import * as S from "../components/StylesComponents";
 import { useNavigate } from "react-router-dom";
 import FooterBar from "../components/Footer";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import Header from "../components/Header";
+import AuthContext from "../contexts/AuthContext";
 
 export default function HomeScreen(){
+  const {user} = useContext(AuthContext)
   const navigate = useNavigate();
-  useEffect(()=> {
-    axios.get()
-  })
+  const [services, setServices] = useState([])
 
-  const user = {
-    userType: "Comprador"
+  const config = {
+    headers: {'Authorization': `Bearer ${user.token}`}
   }
-  const services = [
-    {
-      id: 1,
-      name: "Limpeza Residencial",
-      photo: "https://example.com/limpeza.jpg",
-      shortDescription: "Limpeza completa para sua casa",
-      longDescription: "Oferecemos serviços de limpeza residencial, incluindo varrer, lavar, aspirar e mais.",
-      price: 150.00,
-      telephone: "(47) 3371-0199",
-      city: "Florianópolis-SC",
-    },
-    {
-      id: 2,
-      name: "Reparo Elétrico",
-      photo: "https://example.com/reparo-eletrico.jpg",
-      shortDescription: "Consertamos problemas elétricos em sua residência",
-      longDescription: "Realizamos diagnóstico e reparo de problemas elétricos em sua casa.",
-      price: 200.00,
-      telephone: "(47) 98857-0233",
-      city: "São Paulo-SP",
-    },
-    {
-      id: 3,
-      name: "Jardinagem",
-      photo: "https://example.com/jardinagem.jpg",
-      shortDescription: "Cuidamos do seu jardim com carinho",
-      longDescription: "Serviços de jardinagem, poda de árvores, plantio de flores e manutenção de gramados.",
-      price: 120.00,
-      telephone: "(31) 2222-5555",
-      city: "Belo Horizonte-MG",
-    },
-    {
-      id: 4,
-      name: "Serviço de Pintura",
-      photo: "https://example.com/pintura.jpg",
-      shortDescription: "Transforme seu ambiente com uma nova pintura",
-      longDescription: "Pintura de paredes internas e externas, aplicação de texturas e revestimentos.",
-      price: 180.00,
-      telephone: "(21) 98765-4321",
-      city: "Rio de Janeiro-RJ",
-    },
-    {
-      id: 5,
-      name: "Encanamento e Reparos",
-      photo: "https://example.com/encanamento.jpg",
-      shortDescription: "Soluções para vazamentos e problemas hidráulicos",
-      longDescription: "Serviços de encanamento, detecção e reparo de vazamentos, desentupimento e mais.",
-      price: 160.00,
-      telephone: "(51) 3333-7777",
-      city: "Porto Alegre-RS",
-    },
-    {
-      id: 6,
-      name: "Personal Trainer",
-      photo: "https://example.com/personal-trainer.jpg",
-      shortDescription: "Treinos personalizados para atingir seus objetivos",
-      longDescription: "Aulas de treinamento físico personalizado, focado em saúde, condicionamento e resultados.",
-      price: 250.00,
-      telephone: "(19) 5555-8888",
-      city: "Campinas-SP",
-    }
-  ];
 
+  function getServices() {
+    axios.get("http://localhost:5000/services/", config)
+    
+    .then(res => {
+      setServices(res.data)
+    })
+    .catch(err => console.log(err))
+  }
+  useEffect(()=> {
+
+    if(user.token)  getServices()
+  }, [user.token])
+
+  
   function HomeBuyer() {
     return (
+      
       <BuyerContainer >
+        <Header />
         <S.PageTitle> Serviços disponíveis </S.PageTitle>
         {services.map(({name, photo, shortDescription, price, id}, ind) => (
         <ContainerItem key={ind} onClick={() => navigate(`/service/${id}`)}>
@@ -92,32 +48,28 @@ export default function HomeScreen(){
             <S.ServicePrice>R${price} </S.ServicePrice>
           </div>
         </ContainerItem>))}
-      <FooterBar />
       </BuyerContainer>
-      
     )
   }
+
   function HomeSeller() {
     return(
-      <Footer>
-        <div className="content">
-          <button>TELA INICIAL</button>
-          <button>GERENCIAR ITENS</button>
-          <button>ADICIONAR ITEM</button>
-        </div>
-      </Footer>
+      <>
+      <HomeBuyer />
+      <FooterBar />
+      </>
     )
   }
   return(
     <Background>
-      {user.userType == "Comprador" ? HomeBuyer() : HomeSeller()}
+      {user.userType == "Vendedor" ? HomeSeller() : HomeBuyer()}
     </Background>
   )
 }
 
 const Background = styled.div`
   height: 100vh;
-
+  position:relative;
 `
 const BuyerContainer = styled.div`
     display: flex;
@@ -134,8 +86,12 @@ const ContainerItem = styled.div`
   display: flex;
   gap: 5%;
   .img {
-    width: 35%;
-    align-items: center;
+    width: 40%;
+    img{
+      width: 100%;
+      height: 93%;
+      padding: 3%;
+    }
   }
   .content {
     width: 60%;
@@ -144,11 +100,11 @@ const ContainerItem = styled.div`
     gap: 3px;
   }
 `
-const Footer = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  border-radius: 3px;
-`
+// const Footer = styled.div`
+//   position: fixed;
+//   bottom: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 80px;
+//   border-radius: 3px;
+// `

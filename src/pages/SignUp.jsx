@@ -14,16 +14,18 @@ export default function SignUp(){
     photo:"",
     city: "",
     telephone: "",
-    profileType: "",
+    userType: "",
   })
   function handleSubmit(e){
     e.preventDefault();
     if(newUser.confirmPassword !== newUser.password) {
       return alert("As senhas precisam ser idênticas!")
     }
-    axios.post("/signup", newUser)
-    .then(() => navigate("/signin"))
-    .catch(err => console.log(err))
+    axios.post("http://localhost:5000/signup", newUser)
+    .then(() => {
+      navigate("/signin")
+    })
+    .catch(err => console.log(err.response.data))
   }
   return (
     <Page>
@@ -109,11 +111,10 @@ export default function SignUp(){
               name={"phone"}
               placeholder={"Digite seu número de telefone"}
               type={"tel"}
-              pattern="\(\d{2}\)\d{4,5}-\d{4}"
-              onChangeValue={(phone) => {
+              onChangeValue={(telephone) => {
                 setNewUser(prevState =>( {
                 ...prevState,
-                phone
+                telephone
               } ))}}/> 
         </div>
         <div className="profileType">
@@ -122,8 +123,8 @@ export default function SignUp(){
             <input
               type="radio"
               value="Comprador"
-              checked={newUser.profileType === "Comprador"}
-              onChange={(e) => setNewUser({ ...newUser, profileType: e.target.value })}
+              checked={newUser.userType === "Comprador"}
+              onChange={(e) => setNewUser({ ...newUser, userType: e.target.value })}
             />
             Comprador
           </label>
@@ -131,13 +132,13 @@ export default function SignUp(){
             <input
               type="radio"
               value="Vendedor"
-              checked={newUser.profileType === "Vendedor"}
-              onChange={(e) => setNewUser({ ...newUser, profileType: e.target.value })}
+              checked={newUser.userType === "Vendedor"}
+              onChange={(e) => setNewUser({ ...newUser, userType: e.target.value })}
             />
             Vendedor
           </label>
         </div>
-        <button type="submit">Criar Conta</button>
+        <button type="submit" onClick={() => handleSubmit}>Criar Conta</button>
       </Form>
     </Page>
   )
