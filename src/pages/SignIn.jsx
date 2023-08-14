@@ -15,7 +15,7 @@ export default function SignIn(){
 
   function handleSubmit(e){
     e.preventDefault();
-    axios.post("http://localhost:5000/signin/", login)
+    axios.post(`${import.meta.env.VITE_API_URL}/signin/`, login)
     .then(res => { 
       const {token, user:{id, photo, name, city, userType}} = res.data
       const userInfo = {

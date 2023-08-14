@@ -1,16 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react"
 import { styled } from "styled-components"
 import Header from "../components/Header"
 import * as S from "../components/StylesComponents";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
-import { Checkbox } from "@mui/material";
 import ControlledCheckbox from "../components/CheckBtn";
 
 
 export default function MyServices(){
-  const navigate = useNavigate()
   const {user} = useContext(AuthContext)
   const config = {
     headers: {'Authorization': `Bearer ${user.token}`}
@@ -34,7 +32,7 @@ export default function MyServices(){
     <ContainerServices>
       <Header />
       <S.PageTitle> Seus serviços </S.PageTitle>
-        {services.map(({name, photo, shortDescription, price, id}, ind) => (
+        {services.map(({name, photo, id, isActive}, ind) => (
         <ContainerItem key={ind}>
           <div className="img">
             <img src={photo} alt={name} />
@@ -44,7 +42,7 @@ export default function MyServices(){
             <EditItem>
               <div>
                 <h1>Disponível?</h1>
-                <ControlledCheckbox />
+                <ControlledCheckbox id={id} isActive={isActive}/>
               </div>
               <Btn onClick={() => handleDelete(id)}><ion-icon name="trash-outline"></ion-icon></Btn>
             </EditItem>

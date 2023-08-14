@@ -1,22 +1,29 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { styled } from "styled-components"
 import AuthContext from "../contexts/AuthContext"
 import Logo from "../components/Logo"
 import Header from "../components/Header"
 
 export function DisplayService(){
+  const navigate = useNavigate()
   const location = useLocation()
   const [service, setService] = useState({})
   const {user} = useContext(AuthContext)
+
+  // useEffect(()=>{
+  //   if(!user.id) navigate("/signin")
+  // },[])
+
   const config = {
       headers: {'Authorization': `Bearer ${user.token}`}
     }
-
-  const id = location.state.id
+    const id = location.state.id
   function handleService() {
-    if(user.token) axios.get(`http://localhost:5000/services/${id}`, config)
+    
+    if(user.token) axios.get(`${import.meta.env.VITE_API_URL}/services/${id}`, config)
     .then(res => setService(res.data))
     .catch(err => console.log(err.data))
   }

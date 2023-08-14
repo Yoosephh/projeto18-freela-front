@@ -22,11 +22,11 @@ export default function SignUp(){
     if(newUser.confirmPassword !== newUser.password) {
       return alert("As senhas precisam ser idênticas!")
     }
-    axios.post("http://localhost:5000/signup", newUser)
+    axios.post(`${import.meta.env.VITE_API_URL}/signup`, newUser)
     .then(() => {
       navigate("/signin")
     })
-    .catch(err => console.log(err.response.data))
+    .catch(err => console.log(err))
   }
   return (
     <Page>

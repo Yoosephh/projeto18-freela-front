@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import GlobalStyle from "./assets/globalstyle"
 import  AuthContext from "./contexts/AuthContext"
@@ -28,9 +29,9 @@ export default function App() {
         <Route path="/signin" element={ <SignIn /> } />
         <Route path="/signup" element={ <SignUp /> } />
         <Route path="/" element={userInfo ? <HomeScreen /> : <SignIn />} />
-        <Route path="/create" element={ <CreateService />} />
-        <Route path="/services/:id" element={ <DisplayService />} />
-        <Route path="/service/:id" element={ <MyServices />} />
+        <Route path="/create" element={   <CreateService />} />
+        <Route path="/services/:id" element={  <DisplayService />} />
+        <Route path="/service/:id" element={   <MyServices />} />
       </Routes>
       </AuthContext.Provider>
   )

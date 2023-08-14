@@ -18,9 +18,8 @@ export default function HomeScreen(){
   }
 
   function getServices() {
-    axios.get("http://localhost:5000/services/", config)
+    axios.get(`${import.meta.env.VITE_API_URL}/services/`, config)
     .then(res => {
-      console.log(res)
       setServices(res.data)
     })
     .catch(err => console.log(err))
@@ -36,8 +35,8 @@ export default function HomeScreen(){
       <BuyerContainer >
         <Header />
         <S.PageTitle> Serviços disponíveis </S.PageTitle>
-        {services.map(({name, photo, shortDescription, price, id}, ind) => (
-        <ContainerItem key={ind} onClick={() => navigate(`/service/${id}`, {state:{id}})}>
+        {services.map(({name, photo, shortDescription, price, id, isActive}, ind) => (
+          isActive ?(<ContainerItem key={ind} onClick={() => navigate(`/services/${id}`, {state:{id}})}>
           <div className="img">
             <img src={photo} alt={name} />
           </div>
@@ -46,7 +45,8 @@ export default function HomeScreen(){
             <S.ServiceDescription>{shortDescription}</S.ServiceDescription>
             <S.ServicePrice>R${price} </S.ServicePrice>
           </div>
-        </ContainerItem>))}
+        </ContainerItem>) : null
+        ))}
       </BuyerContainer>
     )
   }

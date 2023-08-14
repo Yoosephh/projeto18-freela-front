@@ -9,19 +9,19 @@ export default function Header(){
   const location = useLocation()
   function handleLogout(){
     localStorage.removeItem('userInfo')
-    setUser(null)
+    setUser({})
     window.location.reload()
   }
 
   return(
     <Container>
-      <ReturnBtn />
+      {location.pathname !== "/signin" && <ReturnBtn />}
       <UserInfo>
         {location.pathname === "/" && <div>
           Seja bem-vindo, {user.name}!
         </div>}
       </UserInfo>
-      <Btn onClick={handleLogout}><ion-icon name="log-out-outline"></ion-icon></Btn>
+      {location.pathname !== "/signin" &&<Btn onClick={handleLogout}><ion-icon name="log-out-outline"></ion-icon></Btn>}
     </Container>
   )
 }

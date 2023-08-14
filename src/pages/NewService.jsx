@@ -45,7 +45,7 @@ export function CreateService(){
   }
   function handleSubmit(e){
     e.preventDefault();
-    axios.post("http://localhost:5000/service", service, config)
+    axios.post(`${import.meta.env.VITE_API_URL}/service`, service, config)
     .then(()=> navigate("/"))
     .catch(err => alert(err.response.data))
   }
