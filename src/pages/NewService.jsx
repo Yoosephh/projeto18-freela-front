@@ -6,6 +6,8 @@ import AuthContext from "../contexts/AuthContext";
 import axios from "axios";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import Logo from "../components/Logo";
+import Header from "../components/Header";
 
 export function CreateService(){
   const {user} = useContext(AuthContext)
@@ -36,14 +38,12 @@ export function CreateService(){
 
   useEffect(()=> {
     handleUserConfig()
-    console.log(user)
   },[user])
 
   const config = {
     headers: {'Authorization': `Bearer ${token}`}
   }
   function handleSubmit(e){
-    console.log(service)
     e.preventDefault();
     axios.post("http://localhost:5000/service", service, config)
     .then(()=> navigate("/"))
@@ -51,8 +51,9 @@ export function CreateService(){
   }
     return(
       <Page>
+        <Header />
+        <Logo />
         <Form onSubmit={handleSubmit}>
-
         <label>Nome do serviço<CustomInput id={"name"}
                 name={"name"}
                 placeholder={"Qual serviço você vai oferecer?"}
@@ -75,6 +76,7 @@ export function CreateService(){
 
         <label>Descrição detalhada do serviço<TextArea id={"longDescription"}
                 name={"longDescription"}
+                required={false}
                 rows="4"
                 placeholder={"Opcional"}
                 onChange={(event) => {
@@ -102,7 +104,7 @@ export function CreateService(){
                   ...prevState,
                   price
                 } ))}}></CustomInput></label>
-        <button type={"submit"} onClick={handleSubmit}>Cadastrar serviço</button>
+        <div><button type={"submit"} onClick={handleSubmit}>Cadastrar serviço</button></div>
         </Form>
         <FooterBar />
       </Page>
@@ -110,4 +112,17 @@ export function CreateService(){
   }
   
 const TextArea = styled.textarea`
+  padding-left: 15px;
+  padding-top: 10px;
+  height: 58px;
+  color: #000;
+  font-size: 20px;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 86%;
+  border-radius: 5px;
+  background: #FFF;
+  resize: vertical;
 `

@@ -4,6 +4,7 @@ import CustomInput from "../components/CustomInput";
 import { useNavigate } from "react-router-dom";
 import { Form, Page } from "../components/StylesComponents";
 import axios from "axios";
+import Logo from "../components/Logo";
 
 export default function SignIn(){
   const navigate = useNavigate()
@@ -16,16 +17,15 @@ export default function SignIn(){
     e.preventDefault();
     axios.post("http://localhost:5000/signin/", login)
     .then(res => { 
-      console.log(res.data)
+      const {token, user:{id, photo, name, city, userType}} = res.data
       const userInfo = {
-        userId: res.data.user.id,
-        photo: res.data.user.photo,
-        name: res.data.user.name,
-        token: res.data.token,
-        city: res.data.user.city,
-        userType: res.data.user.userType
+        userId: id,
+        photo,
+        name,
+        token,
+        city,
+        userType
       }
-      alert(res.data.message)
       localStorage.setItem("userInfo", JSON.stringify(userInfo))
       navigate("/")
     })
@@ -36,6 +36,7 @@ export default function SignIn(){
       <Header>
         <h1>Ainda não tem uma conta? Cadastre-se <SignUpLink onClick={() => navigate("/signup")}>aqui</SignUpLink></h1>
       </Header>
+      <Logo />
       <Form onSubmit={handleSubmit}>
         <div className="email">
         <CustomInput 
@@ -61,7 +62,7 @@ export default function SignIn(){
                 password
               } ))}}/> 
         </div>
-        <button type="submit">Fazer login</button>
+        <div><button type="submit">Fazer login</button></div>
       </Form>
     </Page>
   )

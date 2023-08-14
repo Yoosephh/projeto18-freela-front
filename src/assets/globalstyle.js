@@ -28,6 +28,11 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	color: #eaaa00;
+background-color:  #463300;
+font-family: 'Bricolage Grotesque', sans-serif;
+  font-style: normal;
+  line-height: normal;
 }
 ol, ul {
 	list-style: none;
@@ -43,6 +48,7 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
-}`
+}
+`
 
 export default GlobalStyle

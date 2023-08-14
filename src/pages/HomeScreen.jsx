@@ -19,26 +19,25 @@ export default function HomeScreen(){
 
   function getServices() {
     axios.get("http://localhost:5000/services/", config)
-    
     .then(res => {
+      console.log(res)
       setServices(res.data)
     })
     .catch(err => console.log(err))
   }
   useEffect(()=> {
-
-    if(user.token)  getServices()
+    if(user.token) getServices()
+    
   }, [user.token])
 
   
   function HomeBuyer() {
     return (
-      
       <BuyerContainer >
         <Header />
         <S.PageTitle> Serviços disponíveis </S.PageTitle>
         {services.map(({name, photo, shortDescription, price, id}, ind) => (
-        <ContainerItem key={ind} onClick={() => navigate(`/service/${id}`)}>
+        <ContainerItem key={ind} onClick={() => navigate(`/service/${id}`, {state:{id}})}>
           <div className="img">
             <img src={photo} alt={name} />
           </div>
@@ -70,21 +69,23 @@ export default function HomeScreen(){
 const Background = styled.div`
   height: 100vh;
   position:relative;
+  padding-top: 40px;
 `
 const BuyerContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `
 
 const ContainerItem = styled.div`
   height: 90px;
   width: calc(100% - 40px);
   margin: 0 auto;
-  border: 2px solid #${Math.floor(Math.random()*16777215).toString(16)};
+  border: 2px solid #eaaa00;
   border-radius: 5px;
   display: flex;
   gap: 5%;
+
   .img {
     width: 40%;
     img{

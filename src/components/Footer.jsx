@@ -1,13 +1,16 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components"
+import AuthContext from "../contexts/AuthContext";
 
 export default function FooterBar() {
+  const {user:{userId}} = useContext(AuthContext)
   const navigate = useNavigate()
   return (
     <FooterContainer>
       <NavigationIcon onClick={() => navigate("/")}><ion-icon name="home-outline"></ion-icon></NavigationIcon>
       <NavigationIcon onClick={() => navigate("/create")}><ion-icon name="bag-add-outline"></ion-icon></NavigationIcon>
-      <NavigationIcon><ion-icon name="person-circle-outline"></ion-icon></NavigationIcon>
+      <NavigationIcon onClick={()=> navigate(`/service/${userId}`)}><ion-icon name="person-circle-outline"></ion-icon></NavigationIcon>
     </FooterContainer>
   );
 }

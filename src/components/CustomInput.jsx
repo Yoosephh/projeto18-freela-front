@@ -25,7 +25,7 @@ export default function CustomInput({ placeholder, onChangeValue, type, name, id
 }
 const Input = styled.input`
   padding-left: 15px;
-  height: 58px;
+  height: 45px;
   color: #000;
   font-size: 20px;
   font-family: Raleway;

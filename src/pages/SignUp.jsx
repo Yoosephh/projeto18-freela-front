@@ -3,6 +3,7 @@ import CustomInput from "../components/CustomInput"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import { Form } from "../components/StylesComponents"
 
 export default function SignUp(){
   const navigate = useNavigate()
@@ -138,7 +139,9 @@ export default function SignUp(){
             Vendedor
           </label>
         </div>
-        <button type="submit" onClick={() => handleSubmit}>Criar Conta</button>
+        <div>
+          <button type="submit" onClick={() => handleSubmit}>Criar Conta</button>
+        </div>
       </Form>
     </Page>
   )
@@ -163,8 +166,3 @@ const SignInLink = styled.span`
   text-decoration: underline;
 `;
 
-const Form = styled.form`
-display: flex;
-flex-direction: column;
-    gap: 15px;
-`
