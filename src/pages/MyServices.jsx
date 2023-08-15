@@ -57,6 +57,7 @@ const ContainerServices = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: auto;
 `
 const EditItem = styled.div`
   display: flex;

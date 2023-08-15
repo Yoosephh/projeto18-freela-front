@@ -78,20 +78,23 @@ const BuyerContainer = styled.div`
 `
 
 const ContainerItem = styled.div`
-  height: 90px;
+  height: auto;
   width: calc(100% - 40px);
   margin: 0 auto;
   border: 2px solid #eaaa00;
   border-radius: 5px;
   display: flex;
   gap: 5%;
-
   .img {
     width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    flex-direction: column;
     img{
       width: 100%;
-      height: 93%;
-      padding: 3%;
+      height: 80%;
     }
   }
   .content {
