@@ -57,7 +57,6 @@ const ContainerServices = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  height: auto;
 `
 const EditItem = styled.div`
   display: flex;
@@ -74,7 +73,7 @@ const Btn = styled.button `
   right: 5px;
 `
 const ContainerItem = styled.div`
-  height: 90px;
+  height: auto;
   width: calc(100% - 40px);
   margin: 0 auto;
   border: 2px solid #eaaa00;
