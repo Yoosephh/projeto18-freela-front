@@ -15,7 +15,7 @@ export default function MyServices(){
   }
   const [services, setServices] = useState([])
   function handleServices() {
-    axios.get(`http://localhost:5000/service/${user.userId}`, config)
+    axios.get(`${import.meta.env.VITE_API_URL}/service/${user.userId}`, config)
     .then(res => setServices(res.data))
     .catch(err => console.log(err.data))
   }
@@ -25,7 +25,7 @@ export default function MyServices(){
   }, [])
 
   function handleDelete(id) {
-    axios.delete(`http://localhost:5000/service/${id}`, config)
+    axios.delete(`${import.meta.env.VITE_API_URL}/service/${id}`, config)
     .then(()=> handleServices())
   }
   return (

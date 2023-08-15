@@ -14,7 +14,7 @@ export default function ControlledCheckbox({id, isActive}) {
 
   function handleChange (event) {
     setChecked(event.target.checked);
-    axios.put(`http://localhost:5000/service/${id}`, "", config)
+    axios.put(`${import.meta.env.VITE_API_URL}/service/${id}`, "", config)
   }
 
   return (
